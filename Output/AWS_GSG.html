@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AWS_GSG.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div style="position: relative; width: 800px; height: 800px;">
+  <img src="Images/Cover1.png" 
+       style="position: absolute; top: 0; left: 0; width: 400px; height: 800px; ">
+  <img src="Images/AWSimg.png" 
+       style="position: absolute; top: 0; left: -3;bottom :  1; width: 500px; height: 500px; ">
+</div>
+<br/><br/><br/><br/>
+<p><img src="Images/Copyright.jpg" alt="Copyright"></p>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#how-aws-works">How AWS works</a></li>
+<li><a href="#key-system-requirements">Key system requirements</a></li>
+<li><a href="#getting-started">Getting started</a>
+<ul>
+<li><a href="#sign-up-for-aws">Sign up for AWS</a></li>
+<li><a href="#access-the-aws-management-console">Access the AWS management console</a></li>
+<li><a href="#start-your-first-project">Start your first project</a>
+<ul>
+<li><a href="#launch-an-amazon-ec2-instance">Launch an Amazon EC2 instance</a></li>
+<li><a href="#create-an-amazon-s3-bucket">Create an Amazon S3 bucket</a></li>
+<li><a href="#enable-your-billing-alerts">Enable your billing alerts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#whats-next">What’s next</a></li>
+<li><a href="#faqs">FAQs</a></li>
+<li><a href="#reference">Reference</a></li>
+<li><a href="#glossary">Glossary</a></li>
+</ul>
+<h1 id="overview">Overview</h1>
+<p>Amazon.com, Inc. owns and operates AWS (Amazon Web Services), a cloud computing platform. AWS offers more than 200 cloud services and ranks as the most widely used cloud platform. Organizations and individuals use AWS to run applications, store data, build websites, and explore new technologies.</p>
+<p><strong>Benefits of AWS</strong></p>
+<p>AWS reduces costs because you pay only for what you use. You can scale applications up or down at any time. AWS secures systems and meets global compliance standards. Startups, enterprises, and governments trust AWS to support their workloads.</p>
+<p><strong>Types of AWS services</strong></p>
+<p>AWS provides a wide range of services for developers, IT teams, and businesses. It runs on a global infrastructure with regions and availability zones, and it includes tools that help you manage, monitor, and optimize costs. The following diagram shows examples of AWS services categorized for individuals and organizations:</p>
+<p><img src="Images/Overview/AWS_services.png" alt=""></p>
+<p><strong>Limitations of AWS</strong></p>
+<p>AWS offers many benefits, but it also has some limitations. The limitations are as follows:</p>
+<ul>
+<li>Complex for beginners: The wide range of services can be difficult to understand without training.</li>
+<li>Needs stable internet access: AWS services run in the cloud, so a reliable internet connection is required.</li>
+<li>Costs may increase: Expenses can grow quickly if you do not track usage and billing.</li>
+</ul>
+<p>This guide explains what AWS is, how it works, what you need to get started, and the steps to take first.</p>
+<h1 id="how-aws-works">How AWS works</h1>
+<p>AWS delivers cloud services through its global infrastructure. Users sign in, choose services, provision resources, and then manage, monitor, and scale them as needed. AWS also provides cost and performance reports to help users optimize their workloads. The following diagram explains how AWS works:</p>
+<p><img src="Images/How AWS works/Workflow.png" alt="Workflow"></p>
+<h1 id="key-system-requirements">Key system requirements</h1>
+<p>Before you start, you need the following requirements to use AWS:</p>
+<ul>
+<li>Internet access</li>
+<li>A supported web browser</li>
+</ul>
+<h1 id="getting-started">Getting started</h1>
+<p>The steps in this section guide you from signing up for an AWS account to setting up your first project in AWS.</p>
+<h2 id="sign-up-for-aws">Sign up for AWS</h2>
+<p>Create an AWS account to access AWS services. The following steps help you sign up with a free support plan:</p>
+<p>To sign up,</p>
+<ol>
+<li>
+<p>On your browser, go to the <a href="https://aws.amazon.com/">AWS sign-up page</a></p>
+</li>
+<li>
+<p>Click <strong>Create Account</strong>.</p>
+</li>
+<li>
+<p>Enter your Root user email address and AWS account name.</p>
+</li>
+<li>
+<p>Click <strong>Verify email address</strong>.</p>
+</li>
+<li>
+<p>Enter the verification code that AWS sends to your email</p>
+</li>
+<li>
+<p>Click <strong>Verify</strong>.</p>
+<p><strong>Note:</strong> If you do not receive the code, click <strong>Resend code</strong>.</p>
+</li>
+<li>
+<p>On Create your password page, enter and confirm your password.</p>
+</li>
+<li>
+<p>Click <strong>Continue (step 1 of 5)</strong>.</p>
+<p><strong>Result:</strong> AWS displays the Sign-up page.</p>
+</li>
+<li>
+<p>On your Sign up for AWS page, click <strong>Choose free plan</strong>.</p>
+</li>
+<li>
+<p>Enter details for all required fields</p>
+</li>
+<li>
+<p>Select the check box to accept the AWS Customer Agreement.</p>
+</li>
+<li>
+<p>Click <strong>Agree and Continue (step 2 of 5)</strong>.</p>
+</li>
+<li>
+<p>Enter your billing information and click <strong>Verify and Continue (step 3 of 5)</strong>.</p>
+</li>
+<li>
+<p>Verify OTP on your bank page.</p>
+<p><strong>Note</strong>: AWS sends the OTP to your registered phone number.</p>
+</li>
+<li>
+<p>Confirm your identity with the phone number and captcha.</p>
+</li>
+<li>
+<p>On your Select a support plan page, select <strong>Basic support-Free</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Complete sign up</strong>.</p>
+</li>
+</ol>
+<p><strong>Result:</strong> Your AWS account is ready with a support level.</p>
+<h2 id="access-the-aws-management-console">Access the AWS management console</h2>
+<p>The AWS Management Console is the main interface to access and manage AWS services. You use it to launch resources, configure settings, and monitor usage.</p>
+<p>To access,</p>
+<ol>
+<li>Go to the <a href="https://console.aws.amazon.com/">AWS Management Console</a>.</li>
+<li>Click <strong>Sign in using root user email</strong>.</li>
+<li>Perform one of the following:
+<ul>
+<li>Select Root user:
+<ol>
+<li>Enter your root email ID.</li>
+<li>Click <strong>Next</strong>.</li>
+</ol>
+</li>
+<li>Select IAM user:
+<ol>
+<li>Enter your 12-digit account ID or alias.</li>
+<li>Click <strong>Next</strong>.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Enter your password.</li>
+<li>Click <strong>Sign in</strong>.</li>
+</ol>
+<p><strong>Result:</strong> AWS displays the Management Console home page, where you can search for and open services such as Amazon EC2, Amazon S3, and Amazon RDS.</p>
+<h2 id="start-your-first-project">Start your first project</h2>
+<p>A small free tier project helps you practice using AWS. This includes the three steps as following:</p>
+<ol>
+<li>Launch an Amazon EC2 instance.</li>
+<li>Create an Amazon S3 bucket.</li>
+<li>Enable your billing alerts.</li>
+</ol>
+<p>These steps help you to successfully complete your first AWS project.</p>
+<h3 id="launch-an-amazon-ec2-instance">Launch an Amazon EC2 instance</h3>
+<p>Amazon EC2 lets you run virtual servers in the cloud. This task shows you how to launch a Free Tier–eligible instance.</p>
+<p>To launch,</p>
+<ol>
+<li>
+<p>Sign in to the AWS Management Console.</p>
+</li>
+<li>
+<p>On the search bar, enter EC2.</p>
+</li>
+<li>
+<p>Open the EC2 Dashboard.</p>
+</li>
+<li>
+<p>On the Launch an instance section, Click <strong>Launch instance</strong>.</p>
+</li>
+<li>
+<p>Enter a unique name for your instance.</p>
+</li>
+<li>
+<p>On the Application and OS Images (AMI) section, select a Free Tier–eligible AMI.</p>
+</li>
+<li>
+<p>On the Instance type section, select either t2.micro or t3.micro as the instance type.</p>
+</li>
+<li>
+<p>Click <strong>Create key pair</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Download key pair</strong>.</p>
+<p><strong>Note:</strong> Save the downloaded file securely. You cannot download it next time.</p>
+</li>
+<li>
+<p>Configure network and storage.</p>
+<p><strong>Note:</strong> You can leave the defaults. The Free Tier includes 30 GB of storage with a default root volume.</p>
+</li>
+<li>
+<p>Click <strong>Review and Launch</strong>.</p>
+</li>
+<li>
+<p>On your summary page, click <strong>Launch instance</strong>.</p>
+</li>
+</ol>
+<p><strong>Result:</strong> AWS launches your new virtual server. It appears in the EC2 Dashboard as a running instance.</p>
+<h3 id="create-an-amazon-s3-bucket">Create an Amazon S3 bucket</h3>
+<p>Amazon S3 stores your data as objects in buckets. This task shows you how to create a Free Tier–eligible bucket.</p>
+<p>To create,</p>
+<ol>
+<li>
+<p>Sign in to the <a href="https://console.aws.amazon.com/">AWS Management Console</a>.</p>
+</li>
+<li>
+<p>On your search bar, enter <strong>S3</strong>.</p>
+</li>
+<li>
+<p>Open the S3 Dashboard.</p>
+</li>
+<li>
+<p>On the Buckets section, click <strong>Create bucket</strong>.</p>
+</li>
+<li>
+<p>Enter a unique bucket name.</p>
+</li>
+<li>
+<p>Select the AWS Region.</p>
+<p><strong>Note:</strong> Select the region where you want to create the bucket.</p>
+</li>
+<li>
+<p>Configure the settings.</p>
+<p><strong>Note:</strong> You can select the defaults for the configuration.</p>
+</li>
+<li>
+<p>Set permissions for the bucket.</p>
+</li>
+<li>
+<p>Click <strong>Create bucket</strong>.</p>
+</li>
+</ol>
+<p><strong>Result:</strong> AWS creates a new S3 bucket that appears in the S3 Dashboard. You can upload and manage the objects in it.</p>
+<h3 id="enable-your-billing-alerts">Enable your billing alerts</h3>
+<p>Billing alerts help you track your AWS usage costs. This task shows you how to enable billing alerts in the AWS Billing and Cost Management console.</p>
+<p>To enable,</p>
+<ol>
+<li>Sign in to the <a href="https://console.aws.amazon.com/">AWS Management Console</a>.</li>
+<li>On your search bar, enter Billing.</li>
+<li>Open the Billing and Cost Management console.</li>
+<li>On the left navigation pane, select Billing preferences.</li>
+<li>On the Billing preferences page, select the check box for Receive Billing Alerts.</li>
+<li>Click <strong>Save preferences</strong>.</li>
+</ol>
+<p><strong>Result:</strong> AWS enables billing alerts for your account. You can now create and manage cost and usage alarms in Amazon CloudWatch.</p>
+<h1 id="whats-next">What’s next</h1>
+<p>Once you set up billing alerts, you can explore more AWS features to expand your skills.</p>
+<p>Use these resources to continue learning:</p>
+<ul>
+<li><a href="https://aws.amazon.com/cloudwatch/">Amazon CloudWatch</a>: Monitor your AWS resources and receive alarms when usage crosses limits.</li>
+<li><a href="https://aws.amazon.com/lambda/">AWS Lambda</a>:  Run code without managing servers.</li>
+<li><a href="https://aws.amazon.com/elasticbeanstalk/">AWS Elastic Beanstalk</a>: Deploy and scale web applications quickly.</li>
+<li><a href="https://aws.amazon.com/training/">AWS Training and Certification</a>:  Take free courses and start preparing for AWS Certification.</li>
+</ul>
+<h1 id="faqs">FAQs</h1>
+<p>Q1: What is the difference between EC2 and Lightsail?</p>
+<p>A1: EC2 offers flexible, fully configurable virtual servers. Lightsail provides a simplified way to launch and manage virtual private servers with preset apps and pricing.</p>
+<p>Q2: What is IAM?</p>
+<p>A2: Identity &amp; Access Management (IAM) is the AWS service that lets you securely control access to AWS resources.</p>
+<p>Q3: How can I monitor my AWS costs?</p>
+<p>A3: Enable billing alerts in the Billing and Cost Management console, then create cost and usage alarms in Amazon CloudWatch.</p>
+<p>Q4: Do I need coding skills to use AWS?</p>
+<p>A4: No. You can use the AWS Management Console, which provides a point-and-click interface. Coding is optional and mainly used for automation or advanced configurations.</p>
+<p>Q5: How can I avoid unexpected costs in AWS?</p>
+<p>A5: Enable billing alerts in the Billing and Cost Management console and create cost and usage alarms in Amazon CloudWatch. Regularly check your AWS billing dashboard and make sure you select Free Tier–eligible options when you launch resources.</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://aws.amazon.com/elasticbeanstalk/">AWS website</a>: General entry point for all AWS services, features, and documentation.</li>
+<li><a href="https://aws.amazon.com/getting-started/onboarding-to-aws/?intClick=gsrc_navbar">Onboarding to AWS</a>: Step-by-step guide to set up an AWS account and start using core services.</li>
+<li><a href="https://aws.amazon.com/free/?nc2=h_pr_ftr">AWS free tier</a>: Information on free usage tier available for 12 months with limited services.</li>
+<li><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-overview/introduction.html">AWS whitepaper</a>: Technical overview of AWS core services, global infrastructure, and benefits.</li>
+<li><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-overview/next-steps.html">AWS whitepaper</a>: Detailed guide on learning paths and advanced AWS adoption.</li>
+<li><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-overview/next-steps.html">AWS documentation</a>: Official documentation and tutorials for all AWS services.</li>
+<li><a href="https://aws.amazon.com/training/">AWS training and certification</a>: Learning and certification programs to develop AWS cloud skills.</li>
+<li><a href="https://aws.amazon.com/architecture/">AWS architecture center</a>: Design patterns, best practices, and reference architectures for AWS.</li>
+</ul>
+<h1 id="glossary">Glossary</h1>
+<details>
+  <summary style="font-weight:bold; cursor:pointer;">📖 AWS Terms & Definitions (click to expand)</summary>
+<table style="border: 5px solid orange; border-collapse: collapse; width: 100%;background-color:#FFFFFF;color:#000000;">
+  <thead>
+    <tr>
+      <th style="border: 2px solid orange; padding: 6px; background-color:#FFFFFF
+;">Term</th>
+      <th style="border: 2px solid orange; padding: 6px; background-color:#FFFFFF
+;">Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">AWS</td>
+      <td style="border: 2px solid orange; padding: 6px;">Amazon Web Services. A cloud computing platform that provides on-demand infrastructure and application services.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">EC2</td>
+      <td style="border: 2px solid orange; padding: 6px;">Elastic Compute Cloud. A web service that lets you run virtual servers, called instances, in the AWS cloud.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">S3</td>
+      <td style="border: 2px solid orange; padding: 6px;">Simple Storage Service. A web service that stores and retrieves any amount of data as objects in buckets.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">IAM</td>
+      <td style="border: 2px solid orange; padding: 6px;">Identity &amp; Access Management. A service that lets you control access to AWS resources securely.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">Lightsail</td>
+      <td style="border: 2px solid orange; padding: 6px;">A simplified service that lets you quickly launch and manage virtual private servers with preconfigured apps.</td>
+	   <tr>
+      <td style="border: 2px solid orange; padding: 6px;">RDS</td>
+      <td style="border: 2px solid orange; padding: 6px;">Relational Database Service. A managed service that makes it easy to set up, operate, and scale relational databases in AWS.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">SageMaker</td>
+      <td style="border: 2px solid orange; padding: 6px;">A fully managed service that lets you build, train, and deploy machine learning models at scale.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">Free Tier</td>
+      <td style="border: 2px solid orange; padding: 6px;">Limited AWS services that are available at no cost for 12 months after you sign up.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">Root user email address</td>
+      <td style="border: 2px solid orange; padding: 6px;">The email address you use to create and sign in to the AWS account as the root user.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">OTP</td>
+      <td style="border: 2px solid orange; padding: 6px;">One-Time Password. A temporary code that AWS sends to verify your identity.</td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid orange; padding: 6px;">AMI</td>
+      <td style="border: 2px solid orange; padding: 6px;">Amazon Machine Image. A preconfigured template of an operating system and software you use to launch an EC2 instance.</td>
+    </tr>
+  </tbody>
+</table>
+</details>
+
+</body>
+</html>
